@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePayslipsTable extends Migration
+class AddUserCodeToTableUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreatePayslipsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payslips', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id');
-            $table->date('month');
-            $table->bigInteger('salary');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('user_code')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreatePayslipsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payslips');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('user_code');
+        });
     }
 }

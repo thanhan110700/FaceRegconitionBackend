@@ -20,7 +20,6 @@ class CreateUserInformationsTable extends Migration
             $table->date('birthday');
             $table->bigInteger('department_id');
             $table->bigInteger('position_id');
-            $table->bigInteger('payslip_id');
             $table->bigInteger('total_amount');
             $table->timestamps();
             $table->softDeletes();
