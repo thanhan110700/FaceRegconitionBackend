@@ -27,7 +27,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [AttendanceController::class, 'index']);
         Route::post('/', [AttendanceController::class, 'store']);
     });
-    Route::group(['prefix' => 'user'], function () {
+    Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);
     });
 });

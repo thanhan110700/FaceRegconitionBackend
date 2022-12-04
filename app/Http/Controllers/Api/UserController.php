@@ -49,9 +49,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $this->userService->index();
-
-            return $this->responseSuccess(['data' => ''], Response::HTTP_CREATED);
+            return $this->responseSuccess(['data' => $this->userService->index()]);
         } catch (Throwable $th) {
             Log::error("Register user failed " . $th);
             return $this->responseError(

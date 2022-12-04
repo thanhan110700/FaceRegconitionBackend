@@ -60,6 +60,12 @@ class UserService
      */
     public function index()
     {
-        return User::whereRole()->get();
+        return User::with([
+            'userInformation.salary',
+            'userInformation.position',
+            'userInformation.department'
+        ])
+            ->whereRole(User::ROLE_USER)
+            ->get();
     }
 }
