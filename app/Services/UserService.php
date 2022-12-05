@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\UserDetailResource;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -56,16 +57,27 @@ class UserService
      *
      * @param CreateUserRequest $request
      *
-     * @return void
+     * @return Collection
      */
-    public function index()
+    public function index(): Collection
     {
         return User::with([
-            'userInformation.salary',
             'userInformation.position',
             'userInformation.department'
         ])
             ->whereRole(User::ROLE_USER)
             ->get();
+    }
+
+    /**
+     * get list user
+     *
+     * @param User $request
+     *
+     * @return void
+     */
+    public function delete($user): void
+    {
+        $user->delete();
     }
 }

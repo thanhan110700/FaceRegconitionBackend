@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Resources\ListUserResource;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -49,7 +51,21 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return $this->responseSuccess(['data' => $this->userService->index()]);
+            return $this->responseSuccess(['data' => ListUserResource::collection($this->userService->index())]);
+        } catch (Throwable $th) {
+            Log::error("Register user failed " . $th);
+            return $this->responseError(
+                array($th->getMessage()),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function delete(User $user)
+    {
+        try {
+            $this->userService->delete($user);
+            return $this->responseSuccess(['data' => []], Response::HTTP_NO_CONTENT);
         } catch (Throwable $th) {
             Log::error("Register user failed " . $th);
             return $this->responseError(
