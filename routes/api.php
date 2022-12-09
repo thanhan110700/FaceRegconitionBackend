@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\Client\AttendanceController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'attendances'], function () {
         Route::get('/', [AttendanceController::class, 'index']);
         Route::post('/', [AttendanceController::class, 'store']);
+        Route::put('/checkout', [AttendanceController::class, 'checkOut']);
     });
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);

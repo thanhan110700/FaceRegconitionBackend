@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Services\Client\AttendanceService;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckExistAttendance implements Rule
+class CheckCanCheckOut implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,7 +26,7 @@ class CheckExistAttendance implements Rule
      */
     public function passes($attribute, $value)
     {
-        return app(AttendanceService::class)->checkExistAttendance();
+        return app(AttendanceService::class)->canCheckOut();
     }
 
     /**
@@ -36,6 +36,6 @@ class CheckExistAttendance implements Rule
      */
     public function message()
     {
-        return 'To day you have already checked in';
+        return "To day you haven't already checked in";
     }
 }

@@ -18,6 +18,7 @@ class UserInformation extends Model
      */
     protected $fillable = [
         'user_id',
+        'user_code',
         'name',
         'birthday',
         'department_id',
