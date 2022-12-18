@@ -47,6 +47,12 @@ class UserService
     public function store($request): void
     {
         $user = new User();
+        $userInformation = $user->userInformation()->create([
+            'name' => $request->name,
+            'birthday' => $request->birthday,
+            'department_id' => $request->department_id,
+            'position_id' => $request->position_id,
+        ]);
         $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->role = $request->role ?? 2;
