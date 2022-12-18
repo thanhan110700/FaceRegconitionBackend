@@ -16,10 +16,11 @@ class UserDetailResource extends JsonResource
     {
         return [
             'username' => $this->username,
+            'user_code' => $this->userInformation?->user_code,
             'name' => $this->userInformation?->name,
             'birthday' => $this->userInformation?->birthday,
-            'department' => $this->userInformation?->department?->name,
-            'position' => $this->userInformation?->position?->name,
+            'department_id' => $this->userInformation?->department_id,
+            'position_id' => $this->userInformation?->position_id,
             'salary' => $this->userInformation?->salary?->salary,
             'total_amount' => $this->userInformation?->total_amount,
         ];

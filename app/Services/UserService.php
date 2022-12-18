@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -63,14 +64,30 @@ class UserService
     {
         return User::with([
             'userInformation.position',
-            'userInformation.department'
+            'userInformation.department',
+            'userInformation.salary'
         ])
             ->whereRole(User::ROLE_USER)
             ->get();
     }
 
     /**
-     * get list user
+     * get detail user
+     *
+     * @param User $user
+     *
+     * @return Collection
+     */
+    public function show($user)
+    {
+        return $user->load([
+            'userInformation.position',
+            'userInformation.department'
+        ]);
+    }
+
+    /**
+     * delete user
      *
      * @param User $request
      *
@@ -79,5 +96,31 @@ class UserService
     public function delete($user): void
     {
         $user->delete();
+    }
+
+    /**
+     * update user
+     *
+     * @param UpdateUserRequest $request
+     * @param User $user
+     *
+     * @return void
+     */
+    public function update($request, $user): void
+    {
+        DB::transaction(function () use ($request, $user) {
+            $user->username = $request->username;
+            if ($request->password) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $userInformation = $user->userInformation;
+            $userInformation->name = $request->name;
+            $userInformation->position_id = $request->position_id;
+            $userInformation->department_id = $request->department_id;
+            $userInformation->birthday = $request->birthday;
+            $user->save();
+            $userInformation->save();
+        });
     }
 }

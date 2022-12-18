@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \Awobaz\Compoships\Compoships;
 
 class UserInformation extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     protected $table = 'user_informations';
 
@@ -53,6 +54,6 @@ class UserInformation extends Model
      */
     public function salary()
     {
-        return $this->hasOne(Salary::class, 'department_id', 'department_id')->wherePositionId($this->position_id);
+        return $this->hasOne(Salary::class, ['department_id', 'position_id'], ['department_id', 'position_id']);
     }
 }

@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/{user}', [UserController::class, 'show']);
         Route::delete('/{user}', [UserController::class, 'delete']);
+        Route::put('/{user}', [UserController::class, 'update']);
     });
 });
