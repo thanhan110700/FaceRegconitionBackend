@@ -23,6 +23,7 @@ class ListUserResource extends JsonResource
             'department' => $this->userInformation?->department?->name,
             'position' => $this->userInformation?->position?->name,
             'total_amount' => $this->userInformation?->total_amount,
+            'is_training' => $this->userInformation?->training_label,
             'salary' => $this->userInformation?->salary?->salary,
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AttendanceRequest;
 use App\Http\Requests\CheckOutRequest;
+use App\Http\Resources\ListAttendanceForUserResource;
 use App\Services\Client\AttendanceService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,7 +28,7 @@ class AttendanceController extends Controller
                 $totalTime = addTimeToTime($totalTime, $item->time ?? '00:00:00');
             }
             return $this->responseSuccess([
-                'data' => $data,
+                'data' => ListAttendanceForUserResource::collection($data),
                 'total_time' => $totalTime
             ]);
         } catch (Throwable $th) {

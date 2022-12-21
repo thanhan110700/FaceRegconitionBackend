@@ -10,6 +10,10 @@ class UserInformation extends Model
 {
     use HasFactory, Compoships;
 
+    const IS_TRAINING = 1;
+    const IS_NOT_TRAINING = 0;
+
+
     protected $table = 'user_informations';
 
     /**
@@ -26,6 +30,16 @@ class UserInformation extends Model
         'position_id',
         'total_amount'
     ];
+
+    public function getTrainingLabelAttribute()
+    {
+        $labels = [
+            '' => '',
+            self::IS_NOT_TRAINING => 'No',
+            self::IS_TRAINING => 'Yes',
+        ];
+        return $labels[$this->is_training];
+    }
 
     /**
      * Get the department that owns the user information

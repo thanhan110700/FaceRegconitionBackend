@@ -29,7 +29,10 @@ class CreateUserRequest extends FormRequest
             'username' => 'required|unique:users,username',
             'password' => 'required|min:6',
             're_password' => 'required|same:password',
-            'role' => 'required|in:1,2',
+            'name' => 'required',
+            'birthday' => 'required|date',
+            'department_id' => 'required|exists:departments,id',
+            'position_id' => 'required|exists:positions,id',
         ];
     }
 }

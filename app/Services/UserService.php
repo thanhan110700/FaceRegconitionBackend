@@ -46,17 +46,21 @@ class UserService
      */
     public function store($request): void
     {
-        $user = new User();
-        $userInformation = $user->userInformation()->create([
-            'name' => $request->name,
-            'birthday' => $request->birthday,
-            'department_id' => $request->department_id,
-            'position_id' => $request->position_id,
-        ]);
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password);
-        $user->role = $request->role ?? 2;
-        $user->save();
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role' => User::ROLE_USER
+            ]);
+
+            $user->userInformation()->create([
+                'name' => $request->name,
+                'birthday' => $request->birthday,
+                'department_id' => $request->department_id,
+                'position_id' => $request->position_id,
+                'user_code' => 'NV' . rand(10000, 99999)
+            ]);
+        });
     }
 
     /**

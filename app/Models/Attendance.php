@@ -10,7 +10,8 @@ class Attendance extends Model
     use HasFactory;
 
     const LATE = 1;
-    const NOTE_LATE = 0;
+    const NOT_LATE = 0;
+    const FORGET = 3;
 
     protected $table = 'attendances';
 
@@ -35,7 +36,8 @@ class Attendance extends Model
     {
         $label = [
             '' => '',
-            self::NOTE_LATE => "",
+            self::NOT_LATE => "",
+            self::FORGET => "Forget",
             self::LATE => "Late",
         ];
         return $label[$this->is_late];
