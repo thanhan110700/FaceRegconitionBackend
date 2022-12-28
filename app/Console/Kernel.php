@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('attendance:checkout')->at('17:00');
-        $schedule->command('attendance:forget')->at('19:56');
+        $schedule->command('attendance:forget')->at('17:00');
     }
 
     /**

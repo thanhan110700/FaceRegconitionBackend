@@ -20,7 +20,9 @@ class UserDetailResource extends JsonResource
             'name' => $this->userInformation?->name,
             'birthday' => $this->userInformation?->birthday,
             'department_id' => $this->userInformation?->department_id,
+            'department' => $this->userInformation?->department?->name,
             'position_id' => $this->userInformation?->position_id,
+            'position' => $this->userInformation?->position?->name,
             'salary' => $this->userInformation?->salary?->salary,
             'total_amount' => $this->userInformation?->total_amount,
         ];

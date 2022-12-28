@@ -25,6 +25,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'attendances'], function () {
         Route::get('/', [AttendanceController::class, 'index']);
+        Route::get('/{user}', [AttendanceController::class, 'getAttendanceByUser']);
         Route::post('/', [AttendanceController::class, 'store']);
         Route::put('/checkout', [AttendanceController::class, 'checkOut']);
     });

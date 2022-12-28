@@ -61,7 +61,6 @@ class AttendanceService
         $isLate = Carbon::now()->toTimeString() > '09:00:00';
         Attendance::create([
             'user_id' => Auth::id(),
-            'user_code' => Auth::user()->userInformation->user_code,
             'check_in' => Carbon::now(),
             'is_late' => $isLate
         ]);
@@ -92,6 +91,7 @@ class AttendanceService
     {
         return !Attendance::whereUserId(Auth::id())
             ->whereDate('check_in', '=', date('Y-m-d'))
+            ->whereNull('check_out')
             ->first('id');
     }
 
@@ -106,5 +106,23 @@ class AttendanceService
             ->whereDate('check_in', '=', date('Y-m-d'))
             ->whereNull('check_out')
             ->first('id');
+    }
+
+    /**
+     * store attendance for user
+     *
+     * @param User $user
+     * @param Request $request
+     * 
+     * @return array
+     */
+    public function getAttendancesByUser($user, $request)
+    {
+        $month = date('m', strtotime($request->month));
+        $year = date('Y', strtotime($request->month));
+        return Attendance::whereUserId($user->id)
+            ->whereMonth('check_in', '=', $month)
+            ->whereYear('check_in', '=', $year)
+            ->get();
     }
 }

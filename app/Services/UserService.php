@@ -26,7 +26,7 @@ class UserService
         $credentials = $request->only('username', 'password');
         $token = Auth::attempt($credentials);
         if ($token) {
-            $user = User::with('userInformation.department')->whereUsername($request->username)->first();
+            $user = User::with(['userInformation.department', 'userInformation.position'])->whereUsername($request->username)->first();
             $user = UserDetailResource::make($user);
             return [
                 'token' => $token,

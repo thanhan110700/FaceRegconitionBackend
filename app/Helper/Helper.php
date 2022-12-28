@@ -113,3 +113,19 @@ if (!function_exists('convertDateTimeToStr')) {
         }
     }
 }
+
+if (!function_exists('convertTimeToHour')) {
+    function convertTimeToHour($time)
+    {
+        try {
+            $time = explode(':', $time);
+            $hour = $time[0];
+            $minute = $time[1];
+            $second = $time[2];
+
+            return $hour + ($minute / 60) + ($second / 3600);
+        } catch (\Throwable $th) {
+            return '';
+        }
+    }
+}
