@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Client\AttendanceController;
+use App\Http\Controllers\Api\NotifyController;
 use App\Http\Controllers\Api\UserController;
+use App\Services\NotifyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [AttendanceController::class, 'index']);
         Route::get('/{user}', [AttendanceController::class, 'getAttendanceByUser']);
         Route::post('/', [AttendanceController::class, 'store']);
+        Route::post('/update', [AttendanceController::class, 'update']);
         Route::put('/checkout', [AttendanceController::class, 'checkOut']);
     });
     Route::group(['prefix' => 'users'], function () {
@@ -34,5 +37,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{user}', [UserController::class, 'show']);
         Route::delete('/{user}', [UserController::class, 'delete']);
         Route::put('/{user}', [UserController::class, 'update']);
+    });
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/get-list', [NotifyController::class, 'index']);
+        Route::put('/update-read/{message}', [NotifyController::class, 'updateRead']);
+        Route::post('/', [NotifyController::class, 'store']);
     });
 });

@@ -56,6 +56,21 @@ class AttendanceController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        try {
+            $data = $this->attendanceService->update($request);
+
+            return $this->responseSuccess(['data' => $data]);
+        } catch (Throwable $th) {
+            Log::error("login failed " . $th);
+            return $this->responseError(
+                array($th->getMessage()),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
     public function checkOut(CheckOutRequest $request)
     {
         try {

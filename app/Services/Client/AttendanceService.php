@@ -58,10 +58,27 @@ class AttendanceService
      */
     public function store()
     {
-        $isLate = Carbon::now()->toTimeString() > '09:00:00';
+        $isLate = Carbon::now()->toTimeString() > '08:00:00';
         Attendance::create([
             'user_id' => Auth::id(),
             'check_in' => Carbon::now(),
+            'is_late' => $isLate
+        ]);
+    }
+
+    /** 
+     * store attendance for user
+     *
+     *
+     * @return array
+     */
+    public function update($request)
+    {
+        $isLate = Carbon::parse($request->check_in)->toTimeString() >= '08:00:00';
+        Attendance::whereId($request->id)->update([
+            'check_in' => $request->check_in,
+            'check_out' => $request->check_out ?? null,
+            'time' => $request->check_out ? DB::raw('TIMEDIFF(check_out, check_in)') : null,
             'is_late' => $isLate
         ]);
     }
@@ -78,7 +95,7 @@ class AttendanceService
             ->update([
                 "check_out" => Carbon::now(),
                 "time" => DB::raw('TIMEDIFF(check_out, check_in)')
-            ]);;
+            ]);
     }
 
     /**
