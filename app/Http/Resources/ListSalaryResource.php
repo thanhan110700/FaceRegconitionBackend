@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Attendance;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ListAttendanceForUserResource extends JsonResource
+class ListSalaryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,11 @@ class ListAttendanceForUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => $this->check_in,
-            'image_face' => $this->image_face,
-            'check_in' => $this->is_late == Attendance::FORGET ? '' : $this->check_in,
-            'check_out' => $this->is_late == Attendance::FORGET ? '' : $this->check_out,
-            'time' => $this->time,
-            'is_late_label' => $this->is_late_label,
+            'username' => $this->user?->username,
+            'name' => $this->user?->userInformation?->name,
+            'position' => $this->user?->userInformation?->position?->name,
+            'department' => $this->user?->userInformation?->department?->name,
+            'salary' => $this->total_time * ($this->user?->userInformation?->salary?->salary / 22 / 9 / 60 / 60),
         ];
     }
 }

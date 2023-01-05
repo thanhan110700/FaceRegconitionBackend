@@ -6,6 +6,7 @@ use App\Http\Resources\UserDetailResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -68,17 +69,46 @@ class UserService
      *
      * @param CreateUserRequest $request
      *
-     * @return Collection
+     * @return Paginator
      */
-    public function index(): Collection
+    public function index($request)
     {
-        return User::with([
+        $a = User::with([
             'userInformation.position',
             'userInformation.department',
             'userInformation.salary'
         ])
+            ->when(isset($request->id), function ($query) use ($request) {
+                $query->whereId($request->id);
+            })
+            ->when(isset($request->name), function ($query) use ($request) {
+                $query->whereHas('userInformation', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->name . '%');
+                });
+            })
+            ->when(isset($request->department_id) && $request->department_id != 0, function ($query) use ($request) {
+                $query->whereHas('userInformation', function ($query) use ($request) {
+                    $query->where('department_id', $request->department_id);
+                });
+            })
+            ->when(isset($request->position_id) && $request->position_id != 0, function ($query) use ($request) {
+                $query->whereHas('userInformation', function ($query) use ($request) {
+                    $query->where('position_id', $request->position_id);
+                });
+            })
+            ->when(isset($request->user_code), function ($query) use ($request) {
+                $query->whereHas('userInformation', function ($query) use ($request) {
+                    $query->where('user_code', $request->user_code);
+                });
+            })
+            ->when(isset($request->is_training) && $request->is_training != 2, function ($query) use ($request) {
+                $query->whereHas('userInformation', function ($query) use ($request) {
+                    $query->where('is_training', $request->is_training);
+                });
+            })
             ->whereRole(User::ROLE_USER)
-            ->get();
+            ->paginate(10);
+        return $a;
     }
 
     /**

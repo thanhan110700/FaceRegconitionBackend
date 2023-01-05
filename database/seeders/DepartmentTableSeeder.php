@@ -17,16 +17,16 @@ class DepartmentTableSeeder extends Seeder
         DB::table('departments')->truncate();
         DB::table('departments')->insert([
             [
-                'name' => 'Quản lý nhân sự',
+                'name' => 'Human Resource',
             ],
             [
-                'name' => 'Chuyên viên tư vấn',
+                'name' => 'Marketing',
             ],
             [
-                'name' => 'Chuyên viên kinh doanh',
+                'name' => 'Sales',
             ],
             [
-                'name' => 'Kỹ sư Công nghệ thông tin',
+                'name' => 'Information Technology',
             ],
         ]);
     }

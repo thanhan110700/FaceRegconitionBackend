@@ -17,16 +17,16 @@ class PositionTableSeeder extends Seeder
         DB::table('positions')->truncate();
         DB::table('positions')->insert([
             [
-                'name' => 'Giám đốc',
+                'name' => 'Director',
             ],
             [
-                'name' => 'Trưởng phòng',
+                'name' => 'Manager',
             ],
             [
-                'name' => 'Phó phòng',
+                'name' => 'Deputy',
             ],
             [
-                'name' => 'Nhân viên',
+                'name' => 'Employee',
             ],
         ]);
     }

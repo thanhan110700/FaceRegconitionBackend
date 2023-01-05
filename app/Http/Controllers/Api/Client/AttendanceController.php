@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AttendanceRequest;
 use App\Http\Requests\CheckOutRequest;
 use App\Http\Resources\ListAttendanceForUserResource;
+use App\Http\Resources\ListSalaryResource;
 use App\Models\User;
 use App\Services\Client\AttendanceService;
 use Illuminate\Http\Request;
@@ -106,9 +107,40 @@ class AttendanceController extends Controller
                 'data' => ListAttendanceForUserResource::collection($data),
                 'total_time' => $totalTimeShow,
                 'total_salary' => $totalSalary,
+                'user' => $user->load(['userInformation.department', 'userInformation.position', 'userInformation.salary']),
             ]);
         } catch (Throwable $th) {
             Log::error("login failed " . $th);
+            return $this->responseError(
+                array($th->getMessage()),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function getListSalary(Request $request)
+    {
+        try {
+            $data = $this->attendanceService->getListSalary($request);
+
+            return $this->responseSuccess([
+                'data' => ListSalaryResource::collection($data),
+            ]);
+        } catch (Throwable $th) {
+            Log::error("login failed " . $th);
+            return $this->responseError(
+                array($th->getMessage()),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function downloadCsvSalary(Request $request)
+    {
+        try {
+            return $this->attendanceService->downloadCsvSalary($request);
+        } catch (Throwable $th) {
+            Log::error("download csv failed " . $th);
             return $this->responseError(
                 array($th->getMessage()),
                 Response::HTTP_INTERNAL_SERVER_ERROR

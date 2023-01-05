@@ -50,10 +50,13 @@ class UserController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            return $this->responseSuccess(['data' => ListUserResource::collection($this->userService->index())]);
+            $data = $this->userService->index($request);
+            $data->data = ListUserResource::collection($data);
+
+            return $this->responseSuccess(['data' => $data]);
         } catch (Throwable $th) {
             Log::error("Register user failed " . $th);
             return $this->responseError(

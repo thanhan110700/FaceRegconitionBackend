@@ -25,9 +25,11 @@ Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('/salary', [AttendanceController::class, 'getListSalary']);
+    Route::get('/download-csv-salary', [AttendanceController::class, 'downloadCsvSalary']);
     Route::group(['prefix' => 'attendances'], function () {
-        Route::get('/', [AttendanceController::class, 'index']);
         Route::get('/{user}', [AttendanceController::class, 'getAttendanceByUser']);
+        Route::get('/', [AttendanceController::class, 'index']);
         Route::post('/', [AttendanceController::class, 'store']);
         Route::post('/update', [AttendanceController::class, 'update']);
         Route::put('/checkout', [AttendanceController::class, 'checkOut']);
