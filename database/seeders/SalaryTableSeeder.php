@@ -19,7 +19,7 @@ class SalaryTableSeeder extends Seeder
             [
                 'department_id' => 1,
                 'position_id' => 1,
-                'salary' => 10000000,
+                'salary' => 40000000,
             ],
             [
                 'department_id' => 2,
