@@ -19,9 +19,10 @@ class ListAttendanceForUserResource extends JsonResource
             'id' => $this->id,
             'date' => $this->check_in,
             'image_face' => $this->image_face,
-            'check_in' => $this->is_late == Attendance::FORGET ? '' : $this->check_in,
-            'check_out' => $this->is_late == Attendance::FORGET ? '' : $this->check_out,
+            'check_in' => $this->check_in,
+            'check_out' => $this->check_out,
             'time' => $this->time,
+            'is_late' => $this->is_late,
             'is_late_label' => $this->is_late_label,
         ];
     }

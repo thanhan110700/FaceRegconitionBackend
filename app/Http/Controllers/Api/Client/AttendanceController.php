@@ -91,7 +91,7 @@ class AttendanceController extends Controller
     {
         try {
             $data = $this->attendanceService->getAttendancesByUser($user, $request);
-            $salaryInHour = $user->userInformation->salary->salary / (22 * 8);
+            $salaryInHour = $user->userInformation->salary->salary / (22 * 9);
             $totalTime = 0;
             foreach ($data as $item) {
                 $time = $item->time ?? '00:00:00';

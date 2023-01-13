@@ -34,18 +34,19 @@ class ForgetAttendance extends Command
     public function handle()
     {
         $listId = User::get('id')->pluck('id')->toArray();
-        $listIdAttendance = Attendance::query()
+        $listAttendance = Attendance::query()
             ->whereDate("check_in", "=", Carbon::now()->toDateString())
-            ->get()
-            ->pluck('user_id')
+            ->get();
+        $listId = $listAttendance->pluck('user_id')
             ->toArray();
-        $listIdDiff = array_diff($listId, $listIdAttendance);
+        $listIdDiff = array_diff($listId, $listId);
         Attendance::insert(
             array_map(function ($id) {
                 return [
                     'user_id' => $id,
+                    'user_code' => $id,
                     'check_in' => Carbon::now(),
-                    'check_out' => NULL,
+                    'check_out' => Carbon::now(),
                     'time' => 0,
                     'is_late' => Attendance::FORGET,
                     'created_at' => Carbon::now(),

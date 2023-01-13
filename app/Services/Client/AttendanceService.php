@@ -94,6 +94,7 @@ class AttendanceService
     {
         Attendance::query()
             ->whereDate('check_in', '=', date('Y-m-d'))
+            ->whereNull('check_out')
             ->update([
                 "check_out" => Carbon::now(),
                 "time" => DB::raw('TIMEDIFF(check_out, check_in)')

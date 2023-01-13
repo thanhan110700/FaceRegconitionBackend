@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Client\AttendanceController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotifyController;
 use App\Http\Controllers\Api\UserController;
 use App\Services\NotifyService;
@@ -27,6 +28,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::get('/salary', [AttendanceController::class, 'getListSalary']);
     Route::get('/download-csv-salary', [AttendanceController::class, 'downloadCsvSalary']);
+    Route::get('/master-data', [DashboardController::class, 'msData']);
     Route::group(['prefix' => 'attendances'], function () {
         Route::get('/{user}', [AttendanceController::class, 'getAttendanceByUser']);
         Route::get('/', [AttendanceController::class, 'index']);
