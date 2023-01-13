@@ -17,7 +17,7 @@ class NotifyResource extends JsonResource
         return [
             'id' => $this->id,
             'from' => $this->fromUser?->userInformation?->name,
-            'username' => $this->fromUser?->name,
+            'username' => $this->fromUser?->username,
             'message' => $this->message,
             'read' => $this->read,
             'created_at' => $this->created_at,
